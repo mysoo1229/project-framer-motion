@@ -44,7 +44,7 @@ const Circle = styled(motion.div)`
   box-shadow: 0 0 7px 3px rgba(0, 0, 0, .1);
 `;
 
-const ButtonSwitch = styled(motion.button)`
+const ButtonSwitch = styled.button`
   margin-top: 50px;
   padding: 6px 10px;
   border-radius: 6px;
@@ -53,6 +53,7 @@ const ButtonSwitch = styled(motion.button)`
   font-weight: bold;
   font-family: sans-serif;
   color: #4692ff;
+  transition: all .3s ease;
 `;
 
 const Overlay = styled(motion.div)`
@@ -72,13 +73,6 @@ const OverlayBox = styled(motion.div)`
 
 const boxHoverVar = {
   hover: { scale: 1.15 }
-};
-
-const switchHoverVar = {
-  hover: {
-    scale: 1.2,
-    color: '#66cc96',
-  }
 };
 
 function App() {
@@ -141,8 +135,10 @@ function App() {
 
       <ButtonSwitch
         onClick={onSwitch}
-        variants={switchHoverVar}
-        whileHover="hover"
+        style={{
+          transform: switchClicked ? 'scale(1.3)' : 'scale(1)',
+          color: switchClicked ? '#66cc96' : '#4692ff'
+        }}
       >
         Switch
       </ButtonSwitch>
