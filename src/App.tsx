@@ -24,8 +24,24 @@ const BoxItem = styled(motion.div)`
   justify-content: center;
   align-items: center;
   height: 240px;
-  border-radius: 16px;
+  border-radius: 12px;
   background-color: rgba(255,255, 255, .4);
+
+  &:nth-child(1) {
+    transform-origin: bottom right;
+  }
+
+  &:nth-child(2) {
+    transform-origin: bottom left;
+  }
+
+  &:nth-child(3) {
+    transform-origin: top right;
+  }
+
+  &:nth-child(4) {
+    transform-origin: top left;
+  }
 `;
 
 const Circle = styled(motion.div)`
@@ -37,16 +53,19 @@ const Circle = styled(motion.div)`
 `;
 
 const ButtonSwitch = styled(motion.button)`
-  margin-top: 40px;
+  margin-top: 50px;
   padding: 6px 10px;
   border-radius: 6px;
   background: #fff;
   font-size: 18px;
   font-weight: bold;
   font-family: sans-serif;
-  transition: all .3s ease;
   color: #4692ff;
 `;
+
+const boxHoverVar = {
+  hover: { scale: 1.15 }
+};
 
 const switchHoverVar = {
   hover: {
@@ -64,15 +83,19 @@ function App() {
   return (
     <Wrapper>
       <BoxList>
-        <BoxItem></BoxItem>
-        <BoxItem>
+        <BoxItem variants={boxHoverVar} whileHover="hover" />
+
+        <BoxItem variants={boxHoverVar} whileHover="hover">
           {!switchClicked ? <Circle layoutId="circleMotion"></Circle> : null}
         </BoxItem>
-        <BoxItem>
+
+        <BoxItem variants={boxHoverVar} whileHover="hover">
           {switchClicked ? <Circle layoutId="circleMotion"></Circle> : null}
         </BoxItem>
-        <BoxItem></BoxItem>
+
+        <BoxItem variants={boxHoverVar} whileHover="hover" />
       </BoxList>
+
       <ButtonSwitch
         onClick={onSwitch}
         variants={switchHoverVar}
