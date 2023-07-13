@@ -1,5 +1,82 @@
+import { motion } from "framer-motion";
+import { useState } from "react";
+import styled from "styled-components";
+
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(120deg, #4692ff, #66cc96);
+`;
+
+const BoxList = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  width: 640px;
+`;
+
+const BoxItem = styled(motion.div)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 240px;
+  border-radius: 16px;
+  background-color: rgba(255,255, 255, .4);
+`;
+
+const Circle = styled(motion.div)`
+  width: 60px;
+  height: 60px;
+  border-radius: 30px;
+  background-color: #fff;
+  box-shadow: 0 0 7px 3px rgba(0, 0, 0, .1);
+`;
+
+const ButtonSwitch = styled.button`
+  margin-top: 40px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: #fff;
+  font-size: 18px;
+  font-weight: bold;
+  font-family: sans-serif;
+  transition: all .3s ease;
+  color: #4692ff;
+`;
+
 function App() {
-  return null;
+  const [ switchClicked, setSwitchClicked ] = useState(false);
+  const onSwitch = () => {
+    setSwitchClicked((prev) => !prev);
+  };
+
+  return (
+    <Wrapper>
+      <BoxList>
+        <BoxItem></BoxItem>
+        <BoxItem>
+          {!switchClicked ? <Circle layoutId="circleMotion"></Circle> : null}
+        </BoxItem>
+        <BoxItem>
+          {switchClicked ? <Circle layoutId="circleMotion"></Circle> : null}
+        </BoxItem>
+        <BoxItem></BoxItem>
+      </BoxList>
+      <ButtonSwitch
+        onClick={onSwitch}
+        style={{
+          transform: switchClicked ? 'scale(1.2)' : 'scale(1)',
+          color: switchClicked ? '#66cc96' : '#4692ff'
+        }}
+      >
+        Switch
+      </ButtonSwitch>
+    </Wrapper>
+  );
 }
 
 export default App;
