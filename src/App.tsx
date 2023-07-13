@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import styled from "styled-components";
 
@@ -27,20 +27,12 @@ const BoxItem = styled(motion.div)`
   border-radius: 12px;
   background-color: rgba(255,255, 255, .4);
 
-  &:nth-child(1) {
-    transform-origin: bottom right;
+  &:first-child {
+    transform-origin: bottom right !important;
   }
 
-  &:nth-child(2) {
-    transform-origin: bottom left;
-  }
-
-  &:nth-child(3) {
-    transform-origin: top right;
-  }
-
-  &:nth-child(4) {
-    transform-origin: top left;
+  &:last-child {
+    transform-origin: top left !important;
   }
 `;
 
@@ -63,6 +55,21 @@ const ButtonSwitch = styled(motion.button)`
   color: #4692ff;
 `;
 
+const Overlay = styled(motion.div)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  inset: 0;
+`;
+
+const OverlayBox = styled(motion.div)`
+  width: 310px;
+  height: 240px;
+  background: #fff;
+  border-radius: 12px;
+`;
+
 const boxHoverVar = {
   hover: { scale: 1.15 }
 };
@@ -76,24 +83,60 @@ const switchHoverVar = {
 
 function App() {
   const [ switchClicked, setSwitchClicked ] = useState(false);
+  const [ boxId, setBoxId ] = useState<null | string>(null);
+
   const onSwitch = () => {
     setSwitchClicked((prev) => !prev);
   };
 
+  const boxArray = [
+    {
+      id: "box1",
+      type: "hover",
+    },
+    {
+      id: "box2",
+      type: "circle1",
+    },
+    {
+      id: "box3",
+      type: "circle2",
+    },
+    {
+      id: "box4",
+      type: "hover",
+    },
+  ];
+
   return (
     <Wrapper>
       <BoxList>
-        <BoxItem variants={boxHoverVar} whileHover="hover" />
-
-        <BoxItem variants={boxHoverVar} whileHover="hover">
-          {!switchClicked ? <Circle layoutId="circleMotion"></Circle> : null}
-        </BoxItem>
-
-        <BoxItem variants={boxHoverVar} whileHover="hover">
-          {switchClicked ? <Circle layoutId="circleMotion"></Circle> : null}
-        </BoxItem>
-
-        <BoxItem variants={boxHoverVar} whileHover="hover" />
+        {boxArray.map((box) => {
+          switch (box.type) {
+            case 'hover' :
+              return (
+                <BoxItem
+                  key={box.id}
+                  layoutId={box.id}
+                  onClick={() => setBoxId(box.id)}
+                  variants={boxHoverVar}
+                  whileHover="hover"
+                />
+              );
+            case 'circle1' :
+              return (
+                <BoxItem key={box.id}>
+                  {!switchClicked ? <Circle layoutId="circleMotion"></Circle> : null}
+                </BoxItem>
+              );
+            case 'circle2' :
+              return (
+                <BoxItem key={box.id}>
+                  {switchClicked ? <Circle layoutId="circleMotion"></Circle> : null}
+                </BoxItem>
+              );
+          }
+        })}
       </BoxList>
 
       <ButtonSwitch
@@ -103,6 +146,19 @@ function App() {
       >
         Switch
       </ButtonSwitch>
+
+      <AnimatePresence>
+        {boxId ? (
+          <Overlay
+            onClick={() => setBoxId(null)}
+            initial={{backgroundColor: "rgba(0, 0, 0, 0)"}}
+            animate={{backgroundColor: "rgba(0, 0, 0, .5)"}}
+            exit={{backgroundColor: "rgba(0, 0, 0, 0)"}}
+          >
+            <OverlayBox layoutId={boxId} />
+          </Overlay>
+        ) : null}
+      </AnimatePresence>
     </Wrapper>
   );
 }
