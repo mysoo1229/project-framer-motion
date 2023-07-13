@@ -36,7 +36,7 @@ const Circle = styled(motion.div)`
   box-shadow: 0 0 7px 3px rgba(0, 0, 0, .1);
 `;
 
-const ButtonSwitch = styled.button`
+const ButtonSwitch = styled(motion.button)`
   margin-top: 40px;
   padding: 6px 10px;
   border-radius: 6px;
@@ -47,6 +47,13 @@ const ButtonSwitch = styled.button`
   transition: all .3s ease;
   color: #4692ff;
 `;
+
+const switchHoverVar = {
+  hover: {
+    scale: 1.2,
+    color: '#66cc96',
+  }
+};
 
 function App() {
   const [ switchClicked, setSwitchClicked ] = useState(false);
@@ -68,10 +75,8 @@ function App() {
       </BoxList>
       <ButtonSwitch
         onClick={onSwitch}
-        style={{
-          transform: switchClicked ? 'scale(1.2)' : 'scale(1)',
-          color: switchClicked ? '#66cc96' : '#4692ff'
-        }}
+        variants={switchHoverVar}
+        whileHover="hover"
       >
         Switch
       </ButtonSwitch>
