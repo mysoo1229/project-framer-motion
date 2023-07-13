@@ -14,8 +14,8 @@ const Wrapper = styled.div`
 
 const BoxList = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
   width: 640px;
 `;
 
@@ -23,16 +23,20 @@ const BoxItem = styled(motion.div)`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 240px;
+  grid-column: span 2;
+  height: 200px;
   border-radius: 12px;
-  background-color: rgba(255,255, 255, .4);
+  background: #fff;
+  box-shadow: 0 0 10px 7px rgba(0, 0, 0, .05);
 
   &:first-child {
     transform-origin: bottom right !important;
+    grid-column: span 1;
   }
 
   &:last-child {
     transform-origin: top left !important;
+    grid-column: span 1;
   }
 `;
 
@@ -40,7 +44,7 @@ const Circle = styled(motion.div)`
   width: 60px;
   height: 60px;
   border-radius: 30px;
-  background-color: #fff;
+  background-color: #4692ff;
   box-shadow: 0 0 7px 3px rgba(0, 0, 0, .1);
 `;
 
@@ -125,8 +129,8 @@ function App() {
               );
             case 'circle2' :
               return (
-                <BoxItem key={box.id}>
-                  {switchClicked ? <Circle layoutId="circleMotion"></Circle> : null}
+                <BoxItem key={box.id} className={box.type}>
+                  {switchClicked ? <Circle layoutId="circleMotion" style={{background: "#66cc96"}}></Circle> : null}
                 </BoxItem>
               );
           }
@@ -148,7 +152,7 @@ function App() {
           <Overlay
             onClick={() => setBoxId(null)}
             initial={{backgroundColor: "rgba(0, 0, 0, 0)"}}
-            animate={{backgroundColor: "rgba(0, 0, 0, .5)"}}
+            animate={{backgroundColor: "rgba(70, 146, 255, .7)"}}
             exit={{backgroundColor: "rgba(0, 0, 0, 0)"}}
           >
             <OverlayBox layoutId={boxId} />
